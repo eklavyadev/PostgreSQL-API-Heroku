@@ -77,26 +77,25 @@ app.post("/api/post/", (req, res, next) => {
         title: req.body.title,
         slug: req.body.slug,
         content : req.body.content,
-        date: Date.now();
+        date: 1234
     }
     var sql ='INSERT INTO Post (title, slug, content, date) VALUES ($1,$2,$3,$4)'
-	  var params =[data.title, data.slug, data.content, data.date]
-	  client.query(sql, params, function (err, result) {
-	        if (err){
-	            res.status(400).json({"error": err.message})
-	            return;
-	        }
-	        res.json({
-	            "message": "success",
-	            "data": data
-	        })
-	    });
-    }
-})
+      var params =[data.title, data.slug, data.content, data.date]
+      client.query(sql, params, function (err, result) {
+            if (err){
+                res.status(400).json({"error": err.message})
+                return;
+            }
+            res.json({
+                "message": "success",
+                "data": data
+            })
+        });
+    })
 
 // Delete Post
 app.delete("/api/post/:sno", (req, res) => {
-	   client.query(
+       client.query(
         'DELETE FROM Post WHERE sno = $1',
         [req.params.sno],
         function (err, result) {
@@ -106,8 +105,7 @@ app.delete("/api/post/:sno", (req, res) => {
             }
             res.json({"message":"Deleted", changes: result.rowCount})
     });
-    }
-})
+    })
 
 // Edit Post
 app.patch("/api/post/:id", (req, res, next) => {
@@ -148,8 +146,7 @@ app.patch("/api/post/:id", (req, res, next) => {
               changes: this.changes
           })
     });
-    }
-})
+    })
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
